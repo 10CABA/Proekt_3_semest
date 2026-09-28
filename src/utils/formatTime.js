@@ -1,7 +1,7 @@
 export function formatTime(seconds) {
-    if (!Number.isFinite(seconds) || seconds < 0) return '0:00'
+    if (typeof seconds !== 'number' || !Number.isFinite(seconds) || seconds < 0) {return ''}
     const m = Math.floor(seconds / 60)
     const s = Math.floor(seconds % 60)
-    if (s < 10) {s = '0' + s}
-    return m + ':' + s
+    const secondsStr = String(s).padStart(2, '0')
+    return `${m}:${secondsStr}`
 }
