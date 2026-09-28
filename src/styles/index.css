@@ -1,0 +1,185 @@
+:root {
+    --bg-deep: #0d0e15;
+    --neon-pink: #ff007f;
+    --neon-cyan: #00f0ff;
+    --neon-purple: #a020f0;
+    --text-main: #e6e6f0;
+    --text-dim: #8a8aa3;
+}
+  
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+  
+body {
+    background-color: var(--bg-deep);
+    color: var(--text-main);
+    font-family: system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.space-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+  
+    --parallax-x: 0px;
+    --parallax-y: 0px;
+  }
+  
+.space-bg__image {
+    position: absolute;
+    top: -7.5%;
+    left: -7.5%;
+    width: 115%;
+    height: 115%;
+  
+    background-image: url('/backgrounds/space.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+    transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0);
+    transition: transform 0.4s ease-out;
+    will-change: transform;
+}
+
+.space-bg__overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(13, 14, 21, 0.70) 0%,
+        rgba(13, 14, 21, 0.82) 50%,
+        rgba(13, 14, 21, 0.94) 100%
+      ),
+      radial-gradient(circle at 15% 10%, rgba(255, 0, 127, 0.10), transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(0, 240, 255, 0.10), transparent 45%);
+    pointer-events: none;
+    animation: breathe 20s ease-in-out infinite;
+}
+
+  
+.app {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: 1fr 90px;
+    grid-template-areas:
+      "sidebar main"
+      "player  player";
+    height: 100vh;
+}
+  
+
+.sidebar {
+    grid-area: sidebar;
+    background: rgba(18, 19, 28, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 24px 16px;
+    border-right: 1px solid rgba(255, 0, 127, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    z-index: 1;
+}
+
+.sidebar__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.sidebar__logo-icon {
+    width: 28px;
+    height: 28px;
+}
+
+.sidebar__logo-text {
+    background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.sidebar__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sidebar__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: var(--text-dim);
+    font-size: 15px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.sidebar__item:hover {
+    color: var(--text-main);
+    background: rgba(0, 240, 255, 0.06);
+    border-color: rgba(0, 240, 255, 0.25);
+}
+
+.sidebar__item--active {
+    color: #fff;
+    background: rgba(255, 0, 127, 0.12);
+    border-color: var(--neon-pink);
+    box-shadow:
+      0 0 12px rgba(255, 0, 127, 0.35),
+      inset 0 0 12px rgba(255, 0, 127, 0.1);
+}
+
+.sidebar__item-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    flex-shrink: 0;
+    filter: brightness(0) invert(0.65);
+    transition: filter 0.2s ease;
+}
+
+.sidebar__item:hover .sidebar__item-icon {
+    filter: brightness(0) invert(1);
+}
+
+
+
+.player-bar {
+    grid-area: player;
+    background: rgba(18, 19, 28, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 16px;
+    border-top: 1px solid rgba(0, 240, 255, 0.15);
+    z-index: 1;
+}
+
+.main-content {
+    grid-area: main;
+    padding: 24px;
+    overflow-y: auto;
+    z-index: 1;
+}
+
+@keyframes breathe {
+    0%, 100% { transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0) scale(1); }
+    50%      { transform: translate3d(var(--parallax-x, 0px), var(--parallax-y, 0px), 0) scale(1.03); }
+}
