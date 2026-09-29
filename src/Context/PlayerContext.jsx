@@ -54,7 +54,7 @@ export function PlayerProvider({ children }) {
         )
     }
 
-    function handleTrackEnd() {
+    function trackEnd() {
       nextTrack()
     }
 
@@ -69,7 +69,7 @@ export function PlayerProvider({ children }) {
         tracks, currentTrack, currentTrackId,
         isPlaying, progress, volume, audioRef,
         playTrack, togglePlay, nextTrack, prevTrack,
-        seek, toggleLike, handleTrackEnd,
+        seek, toggleLike, trackEnd,
         setProgress, setVolume,
       }
 
