@@ -1,43 +1,21 @@
-import { useState } from 'react'
+import { usePlayer } from '../Context/PlayerContext.jsx'
 import TrackList from '../components/TrackList.jsx'
-import { initialTracks } from '../data/initialTracks.js'
 
 export default function FavoritesPage() {
-  const [tracks, setTracks] = useState(initialTracks)
+  const { tracks, toggleLike, playTrack, currentTrackId, isPlaying } = usePlayer()
 
-  function handleLike(id) {
-    const updatedTracks = tracks.map(function (track) {
-      if (track.id !== id) {
-        return track
-      }
-
-      const updatedTrack = {
-        id: track.id,
-        title: track.title,
-        artist: track.artist,
-        audioSrc: track.audioSrc,
-        cover: track.cover,
-        liked: !track.liked,
-      }
-
-      if (track.duration) {
-        updatedTrack.duration = track.duration
-      }
-
-      return updatedTrack
-    })
-
-    setTracks(updatedTracks)
-  }
-
-  const favoriteTracks = tracks.filter(function (track) {
-    return track.liked === true
-  })
+  const favoriteTracks = tracks.filter((track) => track.liked === true)
 
   return (
     <>
       <h1 className="page-title">Favorites</h1>
-      <TrackList tracks={favoriteTracks} onLike={handleLike} />
+      <TrackList
+        tracks={favoriteTracks}
+        onLike={toggleLike}
+        onPlay={playTrack}
+        currentTrackId={currentTrackId}
+        isPlaying={isPlaying}
+      />
     </>
   )
 }
