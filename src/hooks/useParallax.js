@@ -3,10 +3,7 @@ import { useEffect } from 'react'
 export function useParallax(strength = 20) {
   useEffect(() => {
     const bg = document.querySelector('.space-bg')
-    if (!bg) {
-      console.warn('[useParallax] .space-bg не найден в DOM')
-      return
-    }
+    if (!bg) {return}
 
     const handleMouseMove = (e) => {
       const relX = (e.clientX / window.innerWidth  - 0.5) * 2

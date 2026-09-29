@@ -6,11 +6,13 @@ import FavoritesPage from './pages/FavoritesPage.jsx'
 import PlaylistsPage from './pages/PlaylistsPage.jsx'
 import PlayerBar from './components/PlayerBar.jsx'
 import { useParallax } from './hooks/useParallax.js'
+import { PlayerProvider } from './Context/PlayerContext.jsx'
 
 export default function App() {
   useParallax(20)
 
   return (
+    <PlayerProvider>
     <BrowserRouter>
       <div className="space-bg">
         <div className="space-bg__image" />
@@ -31,6 +33,7 @@ export default function App() {
         </main>
         <PlayerBar />
       </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </PlayerProvider>
   )
 }

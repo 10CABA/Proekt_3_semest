@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useRef, useEffect } from 'react'
+import { createContext, useContext, useState, useRef, useEffect, use } from 'react'
 import { initialTracks } from '../data/initialTracks.js'
 const PlayerContext = createContext(null)
 
@@ -8,6 +8,7 @@ export function PlayerProvider({ children }) {
     const [isPlaying, setIsPlaying] = useState(false)
     const [progress, setProgress] = useState(0)
     const [volume, setVolume] = useState(1)
+    const currentTrack = tracks.find((track) => track.id === currentTrackId) || null
     const audioRef = useRef(null)
 
 
@@ -37,6 +38,13 @@ export function PlayerProvider({ children }) {
         setIsPlaying(true)
     }
 
+    function seek(seconds) {
+      if (audioRef.current) {
+        audioRef.current.currentTime = seconds
+        setProgress(seconds)
+      }
+    }
+
     function toggleLike(id) {
         setTracks((prev) =>
           prev.map((track) => {
@@ -46,6 +54,11 @@ export function PlayerProvider({ children }) {
         )
     }
 
+    function handleTrackEnd() {
+      nextTrack()
+    }
+
+    useEffect(() => {setProgress(0)}, [currentTrackId])
     useEffect(() => {
         if (audioRef.current) {
           audioRef.current.volume = volume
@@ -56,7 +69,19 @@ export function PlayerProvider({ children }) {
         tracks, currentTrack, currentTrackId,
         isPlaying, progress, volume, audioRef,
         playTrack, togglePlay, nextTrack, prevTrack,
-        toggleLike,
+        seek, toggleLike, handleTrackEnd,
         setProgress, setVolume,
       }
+
+      return (
+        <PlayerContext.Provider value={value}>
+          {children}
+        </PlayerContext.Provider>
+      )
+}
+
+export function usePlayer() {
+  const context = useContext(PlayerContext)
+  if (!context) {throw Error("error")}
+  return context
 }

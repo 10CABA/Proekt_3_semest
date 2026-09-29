@@ -15,7 +15,6 @@ export default function TrackList({ tracks, onLike }) {
             src={track.cover}
             alt=""
             className="track-list__cover"
-            onError={(e) => { e.currentTarget.style.opacity = 0.2 }}
           />
 
           <div className="track-list__meta">
